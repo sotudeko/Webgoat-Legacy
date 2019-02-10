@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    def docker_registry="nexus.mydomain.err:5000"
+    def clair_endpoint="https://nexus.mydomain.err:6060"
+    def image_name="uis-cam/endpoint-heartbeat"
+    def es_version="6.0.0"
+    def full_image_name = "${docker_registry}/${image_name}:${es_version}"
+    def heartbeat
+
     stages {
 
         // stage('Code Quality Scan') {
@@ -23,7 +30,15 @@ pipeline {
             }
         }
 
-        
+        stage('Clair Test') {
+            sh 'wget -nv -O klar http://artifactory.prod.cu.edu/artifactory/ext-archive-local/optiopay/klar/1.5/klar-1.5-linux-amd64'
+            sh 'chmod u+x klar'
+            def statusCode = sh script:"CLAIR_ADDR=${clair_endpoint} ./klar ${full_image_name}", returnStatus:true
+            if (statusCode!=0) {
+                currentBuild.result = 'FAILURE'
+                error "Docker Image did not pass Clair testing."
+            }
+        }
 
     }
 }
