@@ -31,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('Create Dockerfile'){
+        /* stage('Create Dockerfile'){
             steps {
                 script {
                     writeFile file: 'Dockerfile', text: 
@@ -42,7 +42,7 @@ pipeline {
                         CMD ["catalina.sh", "run"]'''
                 }
             }
-        }
+        } */
 
         stage('Build docker image'){
             steps {
