@@ -6,7 +6,7 @@ pipeline {
         IMAGENAME = 'webgoat'
         DEV_REPO = 'staging-dev'
         TAG_FILE = './tag_file.json'
-        SCAN_FILE = './target/WebGoat-5.4.4.3-SNAPSHOT.war'
+        ARTEFACT_NAME = "./target/WebGoat-${BUILD_VERSION}.war"
     }
 
     stages {
@@ -27,6 +27,19 @@ pipeline {
             steps {
                 script{
                     def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
+                }
+            }
+        }
+
+        stage('Create Dockerfile'){
+            steps {
+                script {
+                    writeFile file: 'Dockerfile', text: 
+                        '''FROM tomcat:8.0.43-jre8
+                        ADD ${ARTEFACT_NAME} /usr/local/tomcat/webapps/
+                        EXPOSE 8080
+                        CMD chmod +x /usr/local/tomcat/bin/catalina.sh
+                        CMD ["catalina.sh", "run"]'''
                 }
             }
         }
