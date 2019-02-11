@@ -7,9 +7,6 @@
     <packaging>war</packaging>
     <version>${project.version}</version>
 
-	<properties>
-	</properties>
-
     <!-- Shared version number properties -->
     <properties>
         <project.version>1.0-SNAPSHOT</project.version>
