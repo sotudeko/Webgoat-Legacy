@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    environment {
+        REGISTRY = 'sola.local:18082'
+        IMAGENAME = 'webgoat'
+        DEV_REPO = 'staging-dev'
+        TAG_FILE = './tag_file.json'
+        SCAN_FILE = './target/WebGoat-5.4.4.3-SNAPSHOT.war'
+    }
+
     stages {
 
         stage('Build') {
@@ -22,8 +30,20 @@ pipeline {
                 }
             }
         }
-        
+    }
 
+    stage('Build docker image'){
+        app = docker.build('webgoat')        
+        echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile " > anchore_images
+    }
+
+    stage('Test image') {
+        /* Ideally, we would run a test framework against our image.
+         * For this example, we're using a Volkswagen-type approach ;-) */
+
+        app.inside {
+            sh 'echo "Tests passed"'
+        }
     }
 }
 
