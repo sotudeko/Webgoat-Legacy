@@ -36,7 +36,7 @@ pipeline {
                 script {
                     writeFile file: 'Dockerfile', text: 
                         '''FROM tomcat:8.0.43-jre8
-                        ADD Anchore/WebGoat-anchore-scan/target/WebGoat-1.2.war /usr/local/tomcat/webapps/
+                        ADD /Users/sotudeko/.jenkins/workspace/Anchore/WebGoat-anchore-scan/target/WebGoat-1.2.war /usr/local/tomcat/webapps/
                         EXPOSE 8080
                         CMD chmod +x /usr/local/tomcat/bin/catalina.sh
                         CMD ["catalina.sh", "run"]'''
@@ -52,19 +52,24 @@ pipeline {
 
                     docker.withRegistry('https://sola.local:18082', 'docker-rgy-id') {
 
-                        def customImage = docker.build("webgoat:${env.BUILD_ID}")
-
-                        sh 'echo "$REGISTRY/$IMAGENAME:${BUILD_VERSION} ${WORKSPACE}/Dockerfile" > anchore_images'
+                        def customImage = docker.build("webgoat")
 
                         /* Push the container to the custom Registry */
-                        customImage.push()
-
-                        anchore 'anchore_images'
+                        customImage.push("${BUILD_VERSION}")
 
                         /* customImage.push("${env.BUILD_NUMBER}") */
                         customImage.push("latest")
                     }
 
+                }
+            }
+        }
+
+        stage('Scan docker image'){
+            steps {
+                script {
+                    sh 'echo "$REGISTRY/$IMAGENAME:${BUILD_VERSION} ${WORKSPACE}/Dockerfile" > anchore_images'
+                    anchore 'anchore_images'
                 }
             }
         }
