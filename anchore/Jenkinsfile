@@ -6,7 +6,7 @@ pipeline {
         IMAGENAME = 'webgoat'
         DEV_REPO = 'staging-dev'
         TAG_FILE = './tag_file.json'
-        ARTEFACT_NAME = "./target/WebGoat-${BUILD_VERSION}.war"
+        ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
     }
 
     stages {
@@ -19,6 +19,8 @@ pipeline {
                 success {
                     echo 'Now archiving...'
                     archiveArtifacts artifacts: "**/target/*.war"
+
+                    sh '/bin/cp ${ARTEFACT_NAME} WebGoat.war'
                 }
             }
         }
