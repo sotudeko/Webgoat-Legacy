@@ -33,8 +33,10 @@ pipeline {
 
         stage('Build docker image'){
             steps {
-                docker.build('webgoat')        
-                sh 'echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile " > anchore_images'
+                script {
+                    docker.build('webgoat')        
+                    sh 'echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile " > anchore_images'
+                }
             }
         }
     }
