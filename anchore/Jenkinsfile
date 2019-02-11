@@ -47,8 +47,17 @@ pipeline {
         stage('Build docker image'){
             steps {
                 script {
-                    docker.build('webgoat')        
-                    sh 'echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile " > anchore_images'
+                    /* def customImage = docker.build("webgoat:${env.BUILD_ID}") */
+     
+                    docker.withRegistry('https://sola.local:18082', 'docker-rgy-id') {
+
+                        def customImage = docker.build("webgoat:${env.BUILD_ID}")
+
+                        /* Push the container to the custom Registry */
+                        /* customImage.push() */
+                    }
+
+                    sh 'echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile" > anchore_images'
                 }
             }
         }
