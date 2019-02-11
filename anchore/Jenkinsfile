@@ -36,7 +36,7 @@ pipeline {
                 script {
                     writeFile file: 'Dockerfile', text: 
                         '''FROM tomcat:8.0.43-jre8
-                        ADD ${ARTEFACT_NAME} /usr/local/tomcat/webapps/
+                        ADD Anchore/WebGoat-anchore-scan/target/WebGoat-1.2.war /usr/local/tomcat/webapps/
                         EXPOSE 8080
                         CMD chmod +x /usr/local/tomcat/bin/catalina.sh
                         CMD ["catalina.sh", "run"]'''
@@ -56,10 +56,10 @@ pipeline {
 
                         sh 'echo "$REGISTRY/$IMAGENAME:${BUILD_VERSION} ${WORKSPACE}/Dockerfile" > anchore_images'
 
-                        anchore 'anchore_images'
-
                         /* Push the container to the custom Registry */
                         customImage.push()
+
+                        anchore 'anchore_images'
 
                         /* customImage.push("${env.BUILD_NUMBER}") */
                         customImage.push("latest")
