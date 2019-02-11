@@ -54,7 +54,10 @@ pipeline {
                         def customImage = docker.build("webgoat:${env.BUILD_ID}")
 
                         /* Push the container to the custom Registry */
-                        /* customImage.push() */
+                        customImage.push()
+
+                        /* customImage.push("${env.BUILD_NUMBER}") */
+                        customImage.push("latest")
                     }
 
                     sh 'echo "$REGISTRY/$IMAGENAME:$BUILD_VERSION ${WORKSPACE}/Dockerfile" > anchore_images'
