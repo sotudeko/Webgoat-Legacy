@@ -4,13 +4,10 @@ pipeline {
     environment {
         REGISTRY = 'sola.local:18082'
         IMAGENAME = 'webgoat'
-        DEV_REPO = 'staging-dev'
-        TAG_FILE = './tag_file.json'
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
     }
 
     stages {
-
         stage('Build') {
             steps {
                 sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
@@ -19,7 +16,6 @@ pipeline {
                 success {
                     echo 'Now archiving...'
                     archiveArtifacts artifacts: "**/target/*.war"
-
                     sh '/bin/cp ${ARTEFACT_NAME} WebGoat.war'
                 }
             }
@@ -33,36 +29,14 @@ pipeline {
             }
         }
 
-        /* stage('Create Dockerfile'){
-            steps {
-                script {
-                    writeFile file: 'Dockerfile', text: 
-                        '''FROM tomcat:8.0.43-jre8
-                        ADD /Users/sotudeko/.jenkins/workspace/Anchore/WebGoat-anchore-scan/target/WebGoat-1.2.war /usr/local/tomcat/webapps/
-                        EXPOSE 8080
-                        CMD chmod +x /usr/local/tomcat/bin/catalina.sh
-                        CMD ["catalina.sh", "run"]'''
-                }
-            }
-        } */
-
         stage('Build docker image'){
             steps {
                 script {
-                    /* def customImage = docker.build("webgoat:${env.BUILD_ID}") */
-     
-
-                    docker.withRegistry('https://sola.local:18082', 'docker-rgy-id') {
-
-                        def customImage = docker.build("webgoat")
-
-                        /* Push the container to the custom Registry */
+                    docker.withRegistry("https://${REGISTRY}", 'docker-rgy-id') {
+                        def customImage = docker.build("${IMAGENAME}")
                         customImage.push("${BUILD_VERSION}")
-
-                        /* customImage.push("${env.BUILD_NUMBER}") */
                         customImage.push("latest")
                     }
-
                 }
             }
         }
