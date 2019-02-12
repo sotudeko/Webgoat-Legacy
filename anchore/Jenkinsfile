@@ -5,7 +5,7 @@ pipeline {
         REGISTRY = 'sola.local:18082'
         IMAGENAME = 'webgoat'
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
-    }
+        JENKINS_CRED = 'docker-rgy-id'
 
     stages {
         stage('Build') {
@@ -32,7 +32,7 @@ pipeline {
         stage('Build docker image'){
             steps {
                 script {
-                    docker.withRegistry("https://${REGISTRY}", 'docker-rgy-id') {
+                    docker.withRegistry("https://${REGISTRY}", "${JENKINS_CRED}") {
                         def customImage = docker.build("${IMAGENAME}")
                         customImage.push("${BUILD_VERSION}")
                         customImage.push("latest")
