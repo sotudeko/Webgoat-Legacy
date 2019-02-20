@@ -34,13 +34,18 @@ pipeline {
             }
         }
 
-        stage('Tagging'){
+        stage('Creat tag'){
             steps {
                 script {
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
+                }
+            }
+        }
 
-                    nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'staging-dev', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: 'WebGoat', groupId: 'org.demo', packaging: 'war', version: '1.1']]], tagName: 'my-webgoat-tag'
-
+        stage('Upload to Nexus Repository'){
+            steps {
+                script {
+                    nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'staging-dev', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: 'war', filePath: "${ARTEFACT_NAME}"]], mavenCoordinate: [artifactId: 'WebGoat', groupId: 'org.demo', packaging: 'war', version: "${BUILD_VERSION}"]]], tagName: "${BUILD_TAG}"
                 }
             }
         }
