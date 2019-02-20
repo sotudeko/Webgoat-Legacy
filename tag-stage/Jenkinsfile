@@ -26,15 +26,15 @@ pipeline {
             steps {
                 script {
 
-                    // sh 'echo "\"buildNumber\":\"${BUILD_NUMBER}\"" > ${TAG_FILE}'
-                    sh 'printenv'
-                    
-                    sh "echo '\"buildUser\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
+                    // sh 'printenv'
+
+                    sh "echo '\"buildUser\"':'\"${USER}\"' > ${TAG_FILE}"
                     sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildJob\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
+                    sh "echo '\"buildId\"':'\"${BUILD_ID}\"' >> ${TAG_FILE}"
+                    sh "echo '\"buildJob\"':'\"${JOB_NAME}\"' >> ${TAG_FILE}"
+                    sh "echo '\"buildTag\"':'\"${BUILD_TAG}\"' >> ${TAG_FILE}"
                     sh "echo '\"appVersion\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildUrl\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
+                    sh "echo '\"buildUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
                     sh "echo '\"iqscanUrl\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
 
                     sh 'cat ${TAG_FILE}'
