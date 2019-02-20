@@ -6,6 +6,7 @@ pipeline {
         DEV_REPO = 'staging-dev'
         PROD_REPO = 'staging-prod'
         TAG_FILE = "${WORKSPACE}/tag.json"
+        IQ_SCAN_URL = ""
     }
 
     stages {
@@ -17,19 +18,6 @@ pipeline {
                 success {
                     echo 'Now archiving...'
                     archiveArtifacts artifacts: "**/target/*.war"
-
-                    echo 'Now creating tag metadata'
-                    sh "echo '{' > ${TAG_FILE}"
-                    sh "echo '\"buildUser\"':'\"${USER}\",' >> ${TAG_FILE}"
-                    sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\",' >> ${TAG_FILE}"
-                    sh "echo '\"buildId\"':'\"${BUILD_ID}\",' >> ${TAG_FILE}"
-                    sh "echo '\"buildJob\"':'\"${JOB_NAME}\",' >> ${TAG_FILE}"
-                    sh "echo '\"buildTag\"':'\"${BUILD_TAG}\",' >> ${TAG_FILE}"
-                    sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\",' >> ${TAG_FILE}"
-                    sh "echo '\"buildUrl\"':'\"${BUILD_URL}\",' >> ${TAG_FILE}"
-                    sh "echo '\"iqscanUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
-                    sh "echo '}' >> ${TAG_FILE}"
-                    sh 'cat ${TAG_FILE}'
                 }
             }
         }
@@ -40,11 +28,12 @@ pipeline {
                 
                     try {
                         def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
-                        echo "success analysis - Nexus Lifecycle Analysis succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+                        echo "Nexus IQ scan analysis succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+                        IQ_SCAN_URL = "${policyEvaluation.applicationCompositionReportUrl}"
                     } 
                     catch (error) {
                         def policyEvaluation = error.policyEvaluation
-                        echo "failure analysis - Nexus Lifecycle Analysis failed', ${policyEvaluation.applicationCompositionReportUrl}"
+                        echo "Nexus IQ scan analysis vulnerabilities detected', ${policyEvaluation.applicationCompositionReportUrl}"
                         throw error
                     }
                 }
@@ -54,6 +43,20 @@ pipeline {
         stage('Create tag'){
             steps {
                 script {
+
+                    echo 'Now creating tag metadata'
+                    sh "echo '{' > ${TAG_FILE}"
+                    sh "echo '\"buildUser\"':'\"${USER}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildId\"':'\"${BUILD_ID}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildJob\"':'\"${JOB_NAME}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildTag\"':'\"${BUILD_TAG}\",' >> ${TAG_FILE}"
+                    sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildUrl\"':'\"${BUILD_URL}\",' >> ${TAG_FILE}"
+                    sh "echo '\"iqscanUrl\"':'\"${IQ_SCAN_URL}\"' >> ${TAG_FILE}"
+                    sh "echo '}' >> ${TAG_FILE}"
+                    sh 'cat ${TAG_FILE}'
+
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
                 }
             }
