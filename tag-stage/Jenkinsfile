@@ -33,30 +33,13 @@ pipeline {
                     sh "echo '\"buildId\"':'\"${BUILD_ID}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildJob\"':'\"${JOB_NAME}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildTag\"':'\"${BUILD_TAG}\"' >> ${TAG_FILE}"
-                    sh "echo '\"appVersion\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
+                    sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
-                    sh "echo '\"iqscanUrl\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
+                    sh "echo '\"iqscanUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
 
                     sh 'cat ${TAG_FILE}'
 
-                    writeFile file: 'tagfile.json', text: '"buildNumber":"${BUILD_NUMBER}"'
-
-                    // createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
-
-                    // createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
-                    //     "name": " tag_name ",
-                    //     "attributes": {
-                    //         "buildUser": " build_user ",
-                    //         "buildJob": " build_tag ",
-                    //         "buildId": " job_id ",
-                    //         "appVersion": " build_version ",
-                    //         "buildUrl": " build_url ",
-                    //         "iqscan":  "scan_report"             
-                    //     }
-                    //     }''', 
-                    //     tagName: 'JOB_NAME/BUILD_NUMBER'
-
-                    createTag nexusInstanceId: 'nxrm3', tagName: "${JOB_NAME}-${BUILD_NUMBER}", tagAttributesJson: '{"id":"1"}'
+                    createTag nexusInstanceId: 'nxrm3', tagName: "${BUILD_TAG}", tagAttributesJson: '{"id":"1"}'
 
                 }
             }
