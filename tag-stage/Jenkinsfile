@@ -27,8 +27,9 @@ pipeline {
                 script {
 
                     // sh 'printenv'
-
-                    sh "echo '\"buildUser\"':'\"${USER}\"' > ${TAG_FILE}"
+                    sh "echo '{' > ${TAG_FILE}"
+                    sh "echo '\"attributes\"':'{' >> ${TAG_FILE}"
+                    sh "echo '\"buildUser\"':'\"${USER}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildId\"':'\"${BUILD_ID}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildJob\"':'\"${JOB_NAME}\"' >> ${TAG_FILE}"
@@ -36,6 +37,7 @@ pipeline {
                     sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
                     sh "echo '\"iqscanUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
+                    sh "echo '}' >> ${TAG_FILE}"
 
                     sh 'cat ${TAG_FILE}'
 
@@ -47,3 +49,12 @@ pipeline {
     }
 }
 
+{
+ "name": "jenkins-WebGoat-Example-Staging-Demo-14",
+ "attributes": { 
+    "buildUser": "sotudeko",
+    "buildJob": "WebGoat-Example-Staging-Demo",
+    "buildId": "14",
+    "buildUrl": "http://sola.local:8080/job/WebGoat-Example-Staging-Demo/14/"
+  }
+}
