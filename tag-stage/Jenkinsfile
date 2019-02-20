@@ -27,17 +27,17 @@ pipeline {
                 script {
 
                     // sh 'printenv'
-                    // sh "echo '{' > ${TAG_FILE}"
+                    sh "echo '{' > ${TAG_FILE}"
                     sh "echo '\"attributes\"':'{' > ${TAG_FILE}"
-                    sh "echo '\"buildUser\"':'\"${USER}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildId\"':'\"${BUILD_ID}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildJob\"':'\"${JOB_NAME}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildTag\"':'\"${BUILD_TAG}\"' >> ${TAG_FILE}"
-                    sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\"' >> ${TAG_FILE}"
-                    sh "echo '\"buildUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
+                    sh "echo '\"buildUser\"':'\"${USER}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildId\"':'\"${BUILD_ID}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildJob\"':'\"${JOB_NAME}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildTag\"':'\"${BUILD_TAG}\",' >> ${TAG_FILE}"
+                    sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\",' >> ${TAG_FILE}"
+                    sh "echo '\"buildUrl\"':'\"${BUILD_URL}\",' >> ${TAG_FILE}"
                     sh "echo '\"iqscanUrl\"':'\"${BUILD_URL}\"' >> ${TAG_FILE}"
-                    sh "echo '}' >> ${TAG_FILE}"
+                    sh "echo '}}' >> ${TAG_FILE}"
 
                     sh 'cat ${TAG_FILE}'
 
