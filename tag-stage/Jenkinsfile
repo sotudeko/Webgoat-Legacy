@@ -6,7 +6,7 @@ pipeline {
         JENKINS_CRED = 'docker-rgy-id'
         DEV_REPO = 'staging-dev'
         PROD_REPO = 'staging-prod'
-        TAG_FILE = './tag.json'
+        TAG_FILE = "${WORKSPACE}/tag.json"
     }
 
     stages {
