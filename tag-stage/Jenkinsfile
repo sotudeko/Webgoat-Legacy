@@ -29,6 +29,8 @@ pipeline {
                     sh 'echo "\"buildNumber\":\"${BUILD_NUMBER}\"" > ${TAG_FILE}'
                     sh 'cat ${TAG_FILE}'
 
+                    writeFile file: 'tagfile.json', text: '"buildNumber":"${BUILD_NUMBER}"'
+
                     // createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
 
                     // createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
