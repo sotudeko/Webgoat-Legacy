@@ -24,7 +24,22 @@ pipeline {
         stage('Tagging'){
             steps {
                 script {
-                    createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
+                    // createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
+
+                    createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
+                        "name": " tag_name ",
+                        "attributes": {
+                        "buildUser": " build_user ",
+                        "buildJob": " build_tag ",
+                        "buildId": " job_id ",
+                        "appVersion": " build_version ",
+                        "buildUrl": " build_url ",
+                        "iqscan":  "scan_report"             
+                        }
+                        }''', 
+                        tagName: 'JOB_NAME/BUILD_NUMBER'
+
+
                 }
             }
         }
