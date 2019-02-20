@@ -28,12 +28,12 @@ pipeline {
                 
                     try {
                         def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
-                        echo "Nexus IQ scan analysis succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+                        echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
                         IQ_SCAN_URL = "${policyEvaluation.applicationCompositionReportUrl}"
                     } 
                     catch (error) {
                         def policyEvaluation = error.policyEvaluation
-                        echo "Nexus IQ scan analysis vulnerabilities detected', ${policyEvaluation.applicationCompositionReportUrl}"
+                        echo "Nexus IQ scan vulnerabilities detected', ${policyEvaluation.applicationCompositionReportUrl}"
                         throw error
                     }
                 }
@@ -53,7 +53,7 @@ pipeline {
                     sh "echo '\"buildTag\"':'\"${BUILD_TAG}\",' >> ${TAG_FILE}"
                     sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\",' >> ${TAG_FILE}"
                     sh "echo '\"buildUrl\"':'\"${BUILD_URL}\",' >> ${TAG_FILE}"
-                    sh "echo '\"iqscanUrl\"':'\"${IQ_SCAN_URL}\"' >> ${TAG_FILE}"
+                    sh "echo '\"iqScanUrl\"':'\"${IQ_SCAN_URL}\"' >> ${TAG_FILE}"
                     sh "echo '}' >> ${TAG_FILE}"
                     sh 'cat ${TAG_FILE}'
 
