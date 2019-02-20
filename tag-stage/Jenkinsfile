@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
-        JENKINS_CRED = 'docker-rgy-id'
         DEV_REPO = 'staging-dev'
         PROD_REPO = 'staging-prod'
         TAG_FILE = "${WORKSPACE}/tag.json"
@@ -39,6 +38,9 @@ pipeline {
             steps {
                 script {
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
+
+                    nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'staging-dev', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: 'WebGoat', groupId: 'org.demo', packaging: 'war', version: '1.1']]], tagName: 'my-webgoat-tag'
+
                 }
             }
         }
