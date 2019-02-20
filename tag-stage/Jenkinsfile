@@ -23,18 +23,16 @@ pipeline {
 
         stage('Nexus IQ Scan'){
             steps {
-                script{
+                script {
                     def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
                 }
-                post {
-                    success {
-                        createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '{"build":1}', tagName: 'WebGoat-Legacy-App'
-                    }
+            }
+            post {
+                success {
+                    createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '{"build":1}', tagName: 'WebGoat-Legacy-App'
                 }
             }
         }
-
-        
     }
 }
 
