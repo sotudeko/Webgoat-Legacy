@@ -34,7 +34,24 @@ pipeline {
             }
         }
 
-        stage('Creat tag'){
+        stage('Nexus IQ Scan'){
+            steps {
+                script{
+                
+                    try {
+                        def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
+                        echo "success analysis - Nexus Lifecycle Analysis succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+                    } 
+                    catch (error) {
+                        def policyEvaluation = error.policyEvaluation
+                        echo "failure analysis - Nexus Lifecycle Analysis failed', ${policyEvaluation.applicationCompositionReportUrl}"
+                        throw error
+                    }
+                }
+            }
+        }
+
+        stage('Create tag'){
             steps {
                 script {
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
