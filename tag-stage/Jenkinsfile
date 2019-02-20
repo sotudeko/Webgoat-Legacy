@@ -27,8 +27,8 @@ pipeline {
                 script {
 
                     // sh 'printenv'
-                    sh "echo '{' > ${TAG_FILE}"
-                    sh "echo '\"attributes\"':'{' >> ${TAG_FILE}"
+                    // sh "echo '{' > ${TAG_FILE}"
+                    sh "echo '\"attributes\"':'{' > ${TAG_FILE}"
                     sh "echo '\"buildUser\"':'\"${USER}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\"' >> ${TAG_FILE}"
                     sh "echo '\"buildId\"':'\"${BUILD_ID}\"' >> ${TAG_FILE}"
@@ -41,8 +41,8 @@ pipeline {
 
                     sh 'cat ${TAG_FILE}'
 
-                    createTag nexusInstanceId: 'nxrm3', tagName: "${BUILD_TAG}", tagAttributesJson: '{"id":"1"}'
-
+                    // createTag nexusInstanceId: 'nxrm3', tagName: "${BUILD_TAG}", tagAttributesJson: '{"id":"1"}'
+                    createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
                 }
             }
         }
