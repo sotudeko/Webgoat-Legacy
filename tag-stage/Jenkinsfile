@@ -39,7 +39,7 @@ pipeline {
                     //     }''', 
                     //     tagName: 'JOB_NAME/BUILD_NUMBER'
 
-                    createTag nexusInstanceId: 'nxrm3', tagName: 'wgl-tag-2', tagAttributesJson: "{\"buildNumber\":\"${BUILD_NUMBER}\"}"
+                    createTag nexusInstanceId: 'nxrm3', tagName: "${JOB_NAME}", tagAttributesJson: '{"id":"1"}'
 
                 }
             }
