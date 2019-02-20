@@ -9,24 +9,22 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
-            }
-            post {
-                success {
-                    echo 'Now archiving...'
-                    archiveArtifacts artifacts: "**/target/*.war"
-                }
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
+        //     }
+        //     post {
+        //         success {
+        //             echo 'Now archiving...'
+        //             archiveArtifacts artifacts: "**/target/*.war"
+        //         }
+        //     }
+        // }
 
         stage('Tagging'){
             steps {
                 script {
                     // createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
-
-                    createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{"name": " tag_name "}''', tagName: 'web goat'
 
                     // createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
                     //     "name": " tag_name ",
@@ -41,6 +39,7 @@ pipeline {
                     //     }''', 
                     //     tagName: 'JOB_NAME/BUILD_NUMBER'
 
+                    createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '{"id":"1"}', tagName: 'wgl-tag-2'
 
                 }
             }
