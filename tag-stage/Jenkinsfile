@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
 
-                    sh 'echo "buildNumber:${BUILD_NUMBER}" > ${TAG_FILE}'
+                    sh 'echo "\"buildNumber\"":\"${BUILD_NUMBER}\"" > ${TAG_FILE}'
                     sh 'cat ${TAG_FILE}'
 
                     // createTag nexusInstanceId: 'nxrm3', tagName: 'WebGoat-Legacy-App'
