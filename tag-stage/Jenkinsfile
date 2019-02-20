@@ -27,7 +27,7 @@ pipeline {
                 script {
 
                     sh 'echo "\"buildNumber\":\"${BUILD_NUMBER}\"" > ${TAG_FILE}'
-                    sh "echo 'buildNumber':'${BUILD_NUMBER}' >> ${TAG_FILE}"
+                    sh "echo '\"buildNumber\"':'${BUILD_NUMBER}' >> ${TAG_FILE}"
                     sh 'cat ${TAG_FILE}'
 
                     writeFile file: 'tagfile.json', text: '"buildNumber":"${BUILD_NUMBER}"'
