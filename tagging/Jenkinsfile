@@ -47,18 +47,8 @@ pipeline {
                 script {
 
                     echo 'Now creating tag metadata'
-                    // sh "echo '{' > ${TAG_FILE}"
-                    // sh "echo '\"buildUser\"':'\"${USER}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"buildNumber\"':'\"${BUILD_NUMBER}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"buildId\"':'\"${BUILD_ID}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"buildJob\"':'\"${JOB_NAME}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"buildTag\"':'\"${BUILD_TAG}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"appVersion\"':'\"${BUILD_VERSION}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"buildUrl\"':'\"${BUILD_URL}\",' >> ${TAG_FILE}"
-                    // sh "echo '\"iqScanUrl\"':'\"${IQ_SCAN_URL}\"' >> ${TAG_FILE}"
-                    // sh "echo '}' >> ${TAG_FILE}"
-
-                    def tagdata = readJSON text: '{}' // needs https://wiki.jenkins.io/display/JENKINS/Pipeline+Utility+Steps+Plugin
+                    
+                    def tagdata = readJSON text: '{}' // needs 'Pipeline Utility Steps' plugin
                     tagdata.buildUser = "${USER}" as String
                     tagdata.buildNumber = "${BUILD_NUMBER}" as String
                     tagdata.buildId = "${BUILD_ID}" as String
@@ -68,10 +58,9 @@ pipeline {
                     tagdata.buildUrl = "${BUILD_URL}" as String
                     tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
 
-                    sh 'cat ${TAG_FILE}'
-
                     writeJSON(file: 'tag.json', json: tagdata, pretty: 4)
- 
+                     sh 'cat ${TAG_FILE}'
+
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
                 }
             }
