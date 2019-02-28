@@ -6,7 +6,6 @@ pipeline {
     environment {
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
         DEV_REPO = 'staging-dev'
-        PROD_REPO = 'staging-prod'
         TAG_FILE = "${WORKSPACE}/tag.json"
         IQ_SCAN_URL = ""
     }
@@ -58,8 +57,8 @@ pipeline {
                     tagdata.buildUrl = "${BUILD_URL}" as String
                     tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
 
-                    writeJSON(file: 'tag.json', json: tagdata, pretty: 4)
-                     sh 'cat ${TAG_FILE}'
+                    writeJSON(file: "${TAG_FILE}", json: tagdata, pretty: 4)
+                    sh 'cat ${TAG_FILE}'
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
                 }
@@ -69,7 +68,7 @@ pipeline {
         stage('Upload to Nexus Repository'){
             steps {
                 script {
-                    nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'staging-dev', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: 'war', filePath: "${ARTEFACT_NAME}"]], mavenCoordinate: [artifactId: 'WebGoat', groupId: 'org.demo', packaging: 'war', version: "${BUILD_VERSION}"]]], tagName: "${BUILD_TAG}"
+                    nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: "${DEV_REPO}", packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: 'war', filePath: "${ARTEFACT_NAME}"]], mavenCoordinate: [artifactId: 'WebGoat', groupId: 'org.demo', packaging: 'war', version: "${BUILD_VERSION}"]]], tagName: "${BUILD_TAG}"
                 }
             }
         }
