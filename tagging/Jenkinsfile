@@ -62,7 +62,7 @@ pipeline {
 
                     sh 'cat ${TAG_FILE}'
 
-                    writeFile(file:"${TAG_FILE}", json: tag_data)
+                    writeFile(file:'tag.json', json: tag_data)
 
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
