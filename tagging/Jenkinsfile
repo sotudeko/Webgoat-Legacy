@@ -58,15 +58,20 @@ pipeline {
                     // sh "echo '\"iqScanUrl\"':'\"${IQ_SCAN_URL}\"' >> ${TAG_FILE}"
                     // sh "echo '}' >> ${TAG_FILE}"
 
-                    def tag_data = [
-                        buildUser: "${USER}"
-                    ]
+                    def tagdata = readJSON text: '{}' // needs https://wiki.jenkins.io/display/JENKINS/Pipeline+Utility+Steps+Plugin
+                    tagdata.buildUser = "${USER}" as String
+                    tagdata.buildNumber = "${BUILD_NUMBER}" as String
+                    tagdata.buildId = "${BUILD_ID}" as String
+                    tagdata.buildJob = "${JOB_NAME}" as String
+                    tagdata.buildTag = "${BUILD_TAG}" as String
+                    tagdata.appVersion = "${BUILD_VERSION}" as String
+                    tagdata.buildUrl = "${BUILD_URL}" as String
+                    tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
 
                     sh 'cat ${TAG_FILE}'
 
-                    writeFile(file:'tag.json', json: tag_data)
-
-
+                    writeJSON(file: 'tag.json', json: tagdata, pretty: 4)
+ 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
                 }
             }
