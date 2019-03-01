@@ -61,7 +61,7 @@ pipeline {
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
 
-                    rtp parserName: 'HTML', stableText: 'It worked'
+                    rtp parserName: 'HTML', stableText: "Nexus Repository 3 tag: ${TAG_FILE}"
                 }
             }
         }
