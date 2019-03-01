@@ -43,9 +43,7 @@ pipeline {
         stage('Create tag'){
             steps {
                 script {
-
-                    echo 'Now creating tag metadata'
-                    
+    
                     def tagdata = readJSON text: '{}' // Pipeline Utility Steps plugin
                     tagdata.buildUser = "${USER}" as String
                     tagdata.buildNumber = "${BUILD_NUMBER}" as String
@@ -61,7 +59,6 @@ pipeline {
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
 
-                    // rtp parserName: 'HTML', stableText: "Nexus Repository Tag: ${BUILD_TAG}" // Rich Text Publisher plugin
                     rtp abortedAsStable: false, failedAsStable: false, parserName: 'Confluence', stableText: "Nexus Repository Tag: ${BUILD_TAG}", unstableAsStable: false // Rich Text Publisher plugin
                 }
             }
