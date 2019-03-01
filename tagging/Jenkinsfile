@@ -60,6 +60,8 @@ pipeline {
                     sh 'cat ${TAG_FILE}'
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
+
+                    rtp parserName: 'HTML', stableText: 'It worked'
                 }
             }
         }
