@@ -44,7 +44,8 @@ pipeline {
             steps {
                 script {
     
-                    def tagdata = readJSON text: '{}' // Pipeline Utility Steps plugin
+                    // construct the meta data (Pipeline Utility Steps plugin)
+                    def tagdata = readJSON text: '{}' 
                     tagdata.buildUser = "${USER}" as String
                     tagdata.buildNumber = "${BUILD_NUMBER}" as String
                     tagdata.buildId = "${BUILD_ID}" as String
@@ -59,7 +60,8 @@ pipeline {
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
 
-                    rtp abortedAsStable: false, failedAsStable: false, parserName: 'Confluence', stableText: "Nexus Repository Tag: ${BUILD_TAG}", unstableAsStable: false // Rich Text Publisher plugin
+                    // write the tag name to the build page (Rich Text Publisher plugin)
+                    rtp abortedAsStable: false, failedAsStable: false, parserName: 'Confluence', stableText: "Nexus Repository Tag: ${BUILD_TAG}", unstableAsStable: false 
                 }
             }
         }
