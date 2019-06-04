@@ -44,9 +44,8 @@ pipeline {
             steps {
                 script {
     
-                    // Git data
+                    // Git data (Git plugin)
                     echo "${GIT_COMMIT}"
-                    //echo "${GIT_AUTHOR_NAME}"
                     echo "${GIT_URL}"
                     echo "${GIT_BRANCH}"
                     
