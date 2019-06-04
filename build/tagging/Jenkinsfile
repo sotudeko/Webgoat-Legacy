@@ -44,6 +44,12 @@ pipeline {
             steps {
                 script {
     
+                    // Git data
+                    echo "${GIT_COMMIT}"
+                    echo "${GIT_COMMITTER_NAME}"
+                    echo "${GIT_URL}"
+                    echo "${GIT_BRANCH}"
+                    
                     // construct the meta data (Pipeline Utility Steps plugin)
                     def tagdata = readJSON text: '{}' 
                     tagdata.buildUser = "${USER}" as String
