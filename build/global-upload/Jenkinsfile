@@ -14,5 +14,29 @@ pipeline {
             }
         }
     }
+    stage('Upload'){
+            steps {
+                script{
+                    ansibleTower 
+                        credential: 'nxrm3-credential', 
+                        extraVars: '''artifact: webwolf
+                                      group: org.tower
+                                      repository: mvn-releases
+                                      version: 1.2
+                                    ''', 
+                        importTowerLogs: false, 
+                        importWorkflowChildLogs: 
+                        false, inventory: 'nxrm3-inventory', 
+                        jobTags: '', 
+                        jobTemplate: 'nxrm3-component-upload', 
+                        jobType: 'run', 
+                        limit: '', 
+                        removeColor: false, 
+                        skipJobTags: '', 
+                        templateType: 'job',                 
+                }
+            }
+        }
 }
 
+throwExceptionWhenFail: false, towerServer: 'My Tower', verbose: true
