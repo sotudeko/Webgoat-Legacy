@@ -27,7 +27,7 @@ pipeline {
                 script{
                 
                     try {
-                        def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'wguser'
+                        def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'admin'
                         echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
                         IQ_SCAN_URL = "${policyEvaluation.applicationCompositionReportUrl}"
                     } 
@@ -44,6 +44,11 @@ pipeline {
             steps {
                 script {
     
+                    // Git data (Git plugin)
+                    echo "${GIT_COMMIT}"
+                    echo "${GIT_URL}"
+                    echo "${GIT_BRANCH}"
+                    
                     // construct the meta data (Pipeline Utility Steps plugin)
                     def tagdata = readJSON text: '{}' 
                     tagdata.buildUser = "${USER}" as String
