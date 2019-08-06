@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PROD_REPO = 'staging-prod'
+        PROD_REPO = 'staging-ppe'
     }
 
     stages {
