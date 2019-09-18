@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        PROD_REPO = 'staging-prod'
+        PPE_REPO = 'staging-ppe'
     }
 
     stages {
-        stage('Move tag components'){
+        stage('Promote components'){
             steps {
                 script {
 
-                    moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
+                    moveComponents destination: "${PPE_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
 
                 }
             }
