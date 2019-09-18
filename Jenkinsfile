@@ -22,7 +22,17 @@ pipeline {
             }
         }
 
-        
+        stage('Nexus IQ Scan'){
+            steps {
+                script{
+                
+                        def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'build', jobCredentialsId: 'admin'
+                        echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+                        IQ_SCAN_URL = "${policyEvaluation.applicationCompositionReportUrl}"
+                    
+                }
+            }
+        }
 
         
     }
