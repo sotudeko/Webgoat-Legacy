@@ -28,7 +28,7 @@ pipeline {
                     
                     // construct the meta data (Pipeline Utility Steps plugin)
                     def promoteData = readJSON text: '{}' 
-                    promoteData.sourceStageId = "build}" as String
+                    promoteData.sourceStageId = "build" as String
                     promoteData.targetStageId = "stage-release" as String
                     
                     writeJSON(file: "${PROMOTE_DATA_FILE}", json: promoteData, pretty: 4)
