@@ -1,41 +1,41 @@
-// pipeline {
-//     agent any
-
-//     environment {
-//         UAT_REPO = 'staging-uat'
-//     }
-
-//     stages {
-//         stage('Promote components'){
-//             steps {
-//                 script {
-
-//                     moveComponents destination: "${UAT_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
-
-//                 }
-//             }
-//         }
-//     }
-// }
 
 pipeline {
     agent any
     
     parameters {
         choice(
-            choices: ['greeting' , 'silence'],
+            choices: ['UAT' , 'PROD'],
             description: '',
             name: 'REQUESTED_ACTION')
     }
 
+    environment {
+        UAT_REPO = 'staging-uat'
+        PROD_REPO = 'staging-prod'
+    }
+
     stages {
-        stage ('Speak') {
+        stage ('Promote components to UAT') {
             when {
-                // Only say hello if a "greeting" is requested
-                expression { params.REQUESTED_ACTION == 'greeting' }
+                expression { params.REQUESTED_ACTION == 'UAT' }
             }
             steps {
-                echo "Hello, bitwiseman!"
+                script {
+                    moveComponents destination: "${UAT_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
+                }
+            }
+        }
+    }
+
+    stages {
+        stage('Promote components to PROD'){
+            when {
+                expression { params.REQUESTED_ACTION == 'PROD' }
+            }
+            steps {
+                script {
+                    moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
+                }
             }
         }
     }
