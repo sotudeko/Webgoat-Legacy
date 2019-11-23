@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
-        DEV_REPO = 'staging-dev'
+        DEV_REPO = 'staging-development'
         TAG_FILE = "${WORKSPACE}/tag.json"
         IQ_SCAN_URL = ""
     }

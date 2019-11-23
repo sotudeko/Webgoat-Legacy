@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         UAT_REPO = 'staging-uat'
-        PROD_REPO = 'staging-prod'
+        PROD_REPO = 'staging-production'
         IQ_APPPLICATION = 'webgoat-legacy-ci'
         IQ_APPPLICATION_ID = '99d6417b21574503ab1fe5d761a1aa08'
         IQ_ORG_ID = '6f3ca2fd4f954268b5a429cc9d00252d'
