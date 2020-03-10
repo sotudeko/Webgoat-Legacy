@@ -9,15 +9,15 @@
 
     <!-- Shared version number properties -->
     <properties>
-        <project.version>6.8.9</project.version>
-        <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
+        <project.version>1.2.3</project.version>
+        <org.springframework.version>5.2.4.RELEASE</org.springframework.version>
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <tiles.version>2.2.2</tiles.version>
         <!-- If run from Bamboo this will be replaced with the bamboo build number -->
         <build.number>local</build.number>
     </properties>
 
-<!-- to download from nexus -->
+	<!-- to download from nexus -->
   	<!-- <repositories>
 	    <repository>
 	      <id>nexus</id>
@@ -31,7 +31,7 @@
 	    </repository>
   	</repositories> -->
 
-      <!-- to publish to nexus -->
+    <!-- to publish to nexus -->
     <distributionManagement>
 	    <snapshotRepository>
 	      <id>nexus-snapshots</id>
@@ -45,6 +45,7 @@
     </distributionManagement>
 
     <build>
+    
         <resources>
             <resource>
                 <directory>${basedir}/src/main/java</directory>
@@ -53,10 +54,11 @@
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
+        
         <plugins>
 		
 		<!-- Nexus IQ -->
-        <plugin>
+        <!-- <plugin>
 	        <groupId>com.sonatype.clm</groupId>
 	        <artifactId>clm-maven-plugin</artifactId>
 	        <version>2.14.0-01</version>
@@ -67,24 +69,25 @@
 	          <username>admin</username>
 	          <password>admin123</password>
 	        </configuration>
-      	</plugin>
+      	</plugin> -->
         <!-- Nexus IQ -->
 		
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-		<version>2.3.2</version>
+				<version>2.3.2</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                     <encoding>ISO-8859-1</encoding>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-		<version>3.2.2</version>
+				<version>3.2.2</version>
                 <configuration>
                     <manifest>
                         <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -98,6 +101,7 @@
                     </archive>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -116,7 +120,9 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>     
+            
+                   
         </plugins>
     </build>
 
