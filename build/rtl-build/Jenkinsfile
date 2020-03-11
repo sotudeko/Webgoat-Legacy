@@ -51,18 +51,25 @@ pipeline {
                     echo "${WORKSPACE}"
                     
                     // construct the meta data (Pipeline Utility Steps plugin)
-                    def tagdata = readJSON text: '{}' 
-                    tagdata.buildUser = "${USER}" as String
-                    tagdata.buildNumber = "${BUILD_NUMBER}" as String
-                    tagdata.buildId = "${BUILD_ID}" as String
-                    tagdata.buildJob = "${JOB_NAME}" as String
-                    tagdata.buildTag = "${BUILD_TAG}" as String
-                    tagdata.appVersion = "${BUILD_VERSION}" as String
-                    tagdata.buildUrl = "${BUILD_URL}" as String
-                    tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
-                    tagData.promote = 'NO'
 
-                    writeJSON(file: "${TAG_FILE}", json: tagdata, pretty: 4)
+                    // def tagdata = readJSON text: '{}' 
+                    // tagdata.buildUser = "${USER}" as String
+                    // tagdata.buildNumber = "${BUILD_NUMBER}" as String
+                    // tagdata.buildId = "${BUILD_ID}" as String
+                    // tagdata.buildJob = "${JOB_NAME}" as String
+                    // tagdata.buildTag = "${BUILD_TAG}" as String
+                    // tagdata.appVersion = "${BUILD_VERSION}" as String
+                    // tagdata.buildUrl = "${BUILD_URL}" as String
+                    // tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
+                    // tagData.promote = 'NO'
+
+                    jsonFile = readJSON file: "${TAG_FILE}"
+                    jsonFile['buildUser'] = "${USER}"
+
+                    // writeJSON(file: "${TAG_FILE}", json: tagdata, pretty: 4)
+
+                    writeJSON file: "${TAG_FILE}", json: jsonFile
+                    
                     sh 'cat ${TAG_FILE}'
 
                     createTag nexusInstanceId: 'nxrm3', tagAttributesPath: "${TAG_FILE}", tagName: "${BUILD_TAG}"
