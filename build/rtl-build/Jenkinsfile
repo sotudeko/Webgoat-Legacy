@@ -48,6 +48,7 @@ pipeline {
                     echo "${GIT_COMMIT}"
                     echo "${GIT_URL}"
                     echo "${GIT_BRANCH}"
+                    echo "${WORKSPACE}"
                     
                     // construct the meta data (Pipeline Utility Steps plugin)
                     def tagdata = readJSON text: '{}' 
