@@ -9,7 +9,7 @@
 
     <!-- Shared version number properties -->
     <properties>
-        <project.version>1.2.3</project.version>
+        <project.version>1.3.4</project.version>
         <org.springframework.version>5.2.4.RELEASE</org.springframework.version>
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <tiles.version>2.2.2</tiles.version>
@@ -64,7 +64,7 @@
 	        <version>2.14.0-01</version>
 	        <configuration>
 	          <serverUrl>http://localhost:8070</serverUrl>
-	          <applicationId>webgoat-ide</applicationId>
+	          <applicationId>webgoat-mvn</applicationId>
 	          <stage>build</stage>
 	          <username>admin</username>
 	          <password>admin123</password>
