@@ -24,24 +24,24 @@ pipeline {
             steps {
                 script{
                 
-                    try {
+                    // try {
                         def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: selectedApplication('webgoat-legacy-ci-2'), iqScanPatterns: [[scanPattern: '**/*.war']], iqStage: 'release', jobCredentialsId: 'admin'
                         echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
                         IQ_SCAN_URL = "${policyEvaluation.applicationCompositionReportUrl}"
-                    } 
-                    catch (error) {
-                        def policyEvaluation = error.policyEvaluation
-                        echo "Nexus IQ scan vulnerabilities detected', ${policyEvaluation.applicationCompositionReportUrl}"
-                        throw error
-                    }
+                    // } 
+                    // catch (error) {
+                    //     def policyEvaluation = error.policyEvaluation
+                    //     echo "Nexus IQ scan vulnerabilities detected', ${policyEvaluation.applicationCompositionReportUrl}"
+                    //     throw error
+                    // }
                 }
             }
         }
 
-        stage('Create tag'){
+        stage('Continue'){
             steps {
                 script {
-									echo "Scan successful....continue"
+					echo "Scan successful....continue"
                 }
             }
         }
