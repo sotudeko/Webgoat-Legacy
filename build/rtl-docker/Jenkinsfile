@@ -11,6 +11,10 @@ pipeline {
 				JENKINS_CRED = 'docker-rgy-id'
     }
 
+		tools {
+        jdk 'jdk8'
+    }
+
     stages {
         stage('Build') {
             steps {
