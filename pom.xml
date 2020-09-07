@@ -18,7 +18,7 @@
     </properties>
 
 	<!-- to download from nexus -->
-  	<!-- <repositories>
+  	 <repositories>
 	    <repository>
 	      <id>nexus</id>
 	      <url>http://localhost:8081/repository/maven-central</url>
@@ -29,7 +29,7 @@
 	         <enabled>true</enabled>
 	      </snapshots>
 	    </repository>
-  	</repositories> -->
+  	</repositories> 
 
     <!-- to publish to nexus -->
     <distributionManagement>
