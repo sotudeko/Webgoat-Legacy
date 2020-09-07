@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-				stage('Build docker image'){
+		stage('Build docker image'){
             steps {
                 script {
                     docker.withRegistry("https://${REGISTRY}", "${JENKINS_CRED}") {
@@ -89,6 +89,14 @@ pipeline {
                     }
                 }
             }
+        }
+
+		stage('Associate Tag'){
+			steps {
+				script {
+					associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${IMAGENAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
+				}
+			}
         }
     }
 }
