@@ -8,6 +8,10 @@ pipeline {
         TAG_FILE = "${WORKSPACE}/tag.json"
         IQ_SCAN_URL = ""
     }
+    
+    tools { 
+        jdk 'jdk8' 
+    }
 
     stages {
         stage('Build') {
