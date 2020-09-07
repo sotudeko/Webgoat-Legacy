@@ -91,13 +91,13 @@ pipeline {
             }
         }
 
-		stage('Associate Tag'){
-			steps {
-				script {
-					associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${IMAGENAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
-				}
-			}
-        }
+		// stage('Associate Tag'){
+		// 	steps {
+		// 		script {
+		// 			associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${IMAGENAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
+		// 		}
+		// 	}
+        // }
     }
 }
 
