@@ -20,7 +20,7 @@ pipeline {
 
         stage('Pre-build') {
             steps {
-                 sh 'mkdir ${OUTPUT_DIR}'
+                 sh 'rm -rf ${OUTPUT_DIR} && mkdir ${OUTPUT_DIR}'
 			}
         }
 
