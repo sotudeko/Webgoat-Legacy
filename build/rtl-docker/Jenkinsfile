@@ -12,9 +12,7 @@ pipeline {
       OUTPUT_DIR = "${WORKSPACE}/output"
     }
 
-	tools {
-        jdk 'jdk8'
-    }
+	
 
     stages {
 
