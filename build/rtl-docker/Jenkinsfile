@@ -3,13 +3,13 @@ pipeline {
     agent any
 
     environment {
-        ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
-		APPNAME = 'webgoat'
-		REGISTRY = 'sola.local:9002'
-        TAG_FILE = "${WORKSPACE}/tag.json"
-        IQ_SCAN_URL = ""
-		JENKINS_CRED = 'docker-rgy-id'
-        OUTPUT_DIR = "${WORKSPACE}/output"
+      ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
+			APPNAME = 'webgoat'
+			REGISTRY = 'sola.local:9002'
+      TAG_FILE = "${WORKSPACE}/tag.json"
+      IQ_SCAN_URL = ""
+			JENKINS_CRED = 'docker-rgy-id'
+      OUTPUT_DIR = "${WORKSPACE}/output"
     }
 
 	tools {
@@ -20,8 +20,8 @@ pipeline {
 
         stage('Pre-build') {
     ......steps {
-    ........sh 'mkdir ${OUTPUT_DIR}'
-    ......}
+    ........	sh 'mkdir ${OUTPUT_DIR}'
+			}
     ....}
 
         stage('Build application') {
@@ -51,7 +51,7 @@ pipeline {
 
         stage('Extract docker image'){
             steps { 
-                sh 'docker save -o ./${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:$BUILD_VERSION}'
+                sh 'docker save -o ./${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:${BUILD_VERSION}'
             }
         }
 
