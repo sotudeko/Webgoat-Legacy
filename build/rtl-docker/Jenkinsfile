@@ -17,9 +17,9 @@ pipeline {
     stages {
 
         stage('Pre-build') {
-    ......steps {
+            steps {
             script{
-    ........	sh 'mkdir ${OUTPUT_DIR}'
+                sh 'mkdir ${OUTPUT_DIR}'
             }
 				}
     }
