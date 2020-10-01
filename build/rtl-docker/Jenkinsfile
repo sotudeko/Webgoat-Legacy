@@ -49,14 +49,6 @@ pipeline {
             }
         }
 
-		// stage('Associate Tag'){
-		// 	steps {
-		// 		script {
-		// 			associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${APPNAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
-		// 		}
-		// 	}
-        // }
-
         stage('Extract docker image'){
             steps { 
                 sh 'docker save -o ./${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:$BUILD_VERSION}'
@@ -114,7 +106,14 @@ pipeline {
             }
         }
 
-		
+        // stage('Associate Tag'){
+		// 	steps {
+		// 		script {
+		// 			associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${APPNAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
+		// 		}
+		// 	}
+        // }
+
     }
 }
 
