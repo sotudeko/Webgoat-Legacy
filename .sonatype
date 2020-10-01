@@ -1,8 +1,5 @@
 #Sonatype CLM
-<<<<<<< HEAD
-#Sun Jan 19 13:45:33 GMT 2020
-application.id=webgoat-legacy
-=======
-#Sun Jan 19 18:17:58 GMT 2020
-application.id=webgoat-110
->>>>>>> 88b98aec3d0c733813ab5add8386935c72235e14
+#Tue Sep 15 14:43:13 BST 2020
+=\=\=\=\=\=\=
+>>>>>>>=88b98aec3d0c733813ab5add8386935c72235e14
+<<<<<<<=HEAD

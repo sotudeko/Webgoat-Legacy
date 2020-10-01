@@ -4,19 +4,27 @@ pipeline {
 
     environment {
         ARTEFACT_NAME = "${WORKSPACE}/target/WebGoat-${BUILD_VERSION}.war"
-				IMAGENAME = 'webgoat'
-				REGISTRY = 'sola.local:9002'
+		APPNAME = 'webgoat'
+		REGISTRY = 'sola.local:9002'
         TAG_FILE = "${WORKSPACE}/tag.json"
         IQ_SCAN_URL = ""
-				JENKINS_CRED = 'docker-rgy-id'
+		JENKINS_CRED = 'docker-rgy-id'
+        OUTPUT_DIR = "${WORKSPACE}/output"
     }
 
-		tools {
+	tools {
         jdk 'jdk8'
     }
 
     stages {
-        stage('Build') {
+
+        stage('Pre-build') {
+    ......steps {
+    ........sh 'mkdir ${OUTPUT_DIR}'
+    ......}
+    ....}
+
+        stage('Build application') {
             steps {
                 sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
             }
@@ -24,7 +32,34 @@ pipeline {
                 success {
                     echo 'Now archiving...'
                     archiveArtifacts artifacts: "**/target/*.war"
+                    sh '/bin/cp ${ARTEFACT_NAME} ${OUTPUT_DIR}/${APPNAME}.war'
                 }
+            }
+        }
+
+        stage('Build docker image'){
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY}", "${JENKINS_CRED}") {
+                        def customImage = docker.build("${APPNAME}")
+                        customImage.push("${BUILD_VERSION}")
+                        customImage.push("latest")
+                    }
+                }
+            }
+        }
+
+		// stage('Associate Tag'){
+		// 	steps {
+		// 		script {
+		// 			associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${APPNAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
+		// 		}
+		// 	}
+        // }
+
+        stage('Extract docker image'){
+            steps { 
+                sh 'docker save -o ./${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:$BUILD_VERSION}'
             }
         }
 
@@ -79,25 +114,7 @@ pipeline {
             }
         }
 
-		stage('Build docker image'){
-            steps {
-                script {
-                    docker.withRegistry("https://${REGISTRY}", "${JENKINS_CRED}") {
-                        def customImage = docker.build("${IMAGENAME}")
-                        customImage.push("${BUILD_VERSION}")
-                        customImage.push("latest")
-                    }
-                }
-            }
-        }
-
-		// stage('Associate Tag'){
-		// 	steps {
-		// 		script {
-		// 			associateTag nexusInstanceId: 'nxrm3', search: [[key: 'Image Name', value: "${IMAGENAME}"], [key: 'Image Tag', value: "${BUILD_VERSION}"]], tagName: "${BUILD_TAG}"
-		// 		}
-		// 	}
-        // }
+		
     }
 }
 
