@@ -20,7 +20,9 @@ pipeline {
 
         stage('Pre-build') {
     ......steps {
+            script{
     ........	sh 'mkdir ${OUTPUT_DIR}'
+            }
 			}
     ....}
 
