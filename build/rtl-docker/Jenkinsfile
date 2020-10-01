@@ -51,7 +51,7 @@ pipeline {
 
         stage('Extract docker image'){
             steps { 
-                sh 'docker save -o ./${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:${BUILD_VERSION}'
+                sh 'docker save -o ${OUTPUT_DIR}/${APPNAME}.tar ${REGISTRY}/${APPNAME}:${BUILD_VERSION}'
             }
         }
 
