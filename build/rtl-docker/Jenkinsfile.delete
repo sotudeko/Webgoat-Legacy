@@ -18,7 +18,7 @@ pipeline {
 
     stages {
 
-        stage('Pre-build clean') {
+        stage('Pre-build') {
             steps {
                  sh 'rm -rf ${OUTPUT_DIR} && mkdir ${OUTPUT_DIR}'
 			}
@@ -32,7 +32,6 @@ pipeline {
                 success {
                     echo 'Now archiving...'
                     archiveArtifacts artifacts: "**/target/*.war"
-                    sh '/bin/cp ${ARTEFACT_NAME} ${OUTPUT_DIR}/${APPNAME}.war'
                 }
             }
         }
