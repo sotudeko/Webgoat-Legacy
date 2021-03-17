@@ -27,7 +27,7 @@ pipeline {
                     def slurper = new groovy.json.JsonSlurperClassic()
                     def res = slurper.parseText("${response}")
                     
-                    // def goAhead = "${res.attributes.promoteToTest}"
+                    def goAhead = "${res.attributes.promoteToTest}"
 
                     // if (goAhead == "yes"){
                     //     echo 'Moving components to UAT...'
