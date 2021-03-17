@@ -2,15 +2,24 @@
 pipeline {
     agent any
     
+    parameters {
+        choice(
+            choices: ['UAT' , 'PROD'],
+            description: '',
+            name: 'DEPLOY_ENV')
+    }
+
     environment {
         UAT_REPO = 'staging-uat'
-        IQ_APPPLICATION = 'webgoat-legacy-ci-2'
-        IQ_APPPLICATION_ID = 'e029958f86ce43468e622b377d31b511' // get application id from this endpoint "curl --silent -u admin:admin123 -X GET http://localhost:8070/api/v2/applications"
+        PROD_REPO = 'staging-production'
         PROMOTE_DATA_FILE = './promote-data.json'
     }
 
     stages {
         stage ('Promote components to UAT') {
+            when {
+                expression { params.DEPLOY_ENV == 'UAT' }
+            }
             steps {
                 script {
                     
@@ -20,16 +29,29 @@ pipeline {
                     promoteData.targetStageId = "stage-release" as String
                     
                     writeJSON(file: "${PROMOTE_DATA_FILE}", json: promoteData, pretty: 4)
-                    sh 'cat ${PROMOTE_DATA_FILE}'                    
-                    
-                    sh "curl -u admin:admin123 -X POST -H 'Content-Type: application/json' -d  @${PROMOTE_DATA_FILE} http://localhost:8070/api/v2/evaluation/applications/${IQ_APPPLICATION_ID}/promoteScan"
+                    sh 'cat ${PROMOTE_DATA_FILE}'                                        
                 }
             }
             post {
                 success {
-                    echo 'Now moving components to UAT repository...'
+                    echo 'Now moving components to UAT...'
                     moveComponents destination: "${UAT_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
                     sh "/bin/rm ${PROMOTE_DATA_FILE}"
+                }
+            }
+        }
+
+        stage ('Promote components to PROD'){
+            when {
+                expression { params.REQUESTED_ACTION == 'PROD' }
+            }
+            steps {
+                script {
+                    get tagName
+                    check status
+                    if yes
+                    moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
+                    endif
                 }
             }
         }
