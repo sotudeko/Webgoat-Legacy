@@ -25,7 +25,7 @@ pipeline {
                     echo "${response}"
 
                     def slurper = new groovy.json.JsonSlurperClassic()
-                    // def res = slurper.parseText("${response}")
+                    def res = slurper.parseText("${response}")
                     
                     // def goAhead = "${res.attributes.promoteToTest}"
 
