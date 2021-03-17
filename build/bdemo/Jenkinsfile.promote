@@ -34,13 +34,7 @@ pipeline {
             steps {
                 script {
                     echo 'Now moving components to PROD...'
-
-                    // get tagName
-                    // check status
-                    // if yes
-
                     moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
-                    endif
                 }
             }
         }
