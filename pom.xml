@@ -39,7 +39,7 @@
 	    </snapshotRepository>
 	    <repository>
 	      <id>nexus-releases</id>
-	      <url>http://localhost:8081/repository/maven-releases</url>
+	      <url>http://localhost:8081/repository/maven-central</url>
 	      <!-- <url>http://localhost:8081/nexus/content/repositories/releases</url> -->
 	    </repository>
     </distributionManagement>
@@ -153,13 +153,6 @@
     <artifactId>spring-boot-starter-undertow</artifactId>
     <version>2.2.2.RELEASE</version>
 </dependency>
-
-<dependency>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>logback-classic</artifactId>
-    <version>1.0.3</version>
-</dependency>
-
 
 
 
