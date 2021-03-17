@@ -65,6 +65,7 @@ pipeline {
                     tagdata.buildUrl = "${BUILD_URL}" as String
                     tagdata.iqScanUrl = "${IQ_SCAN_URL}" as String
                     tagdata.promoteToTest = "yes" as String
+                    tagdata.promoteToProd = "no" as String
 
                     writeJSON(file: "${TAG_FILE}", json: tagdata, pretty: 4)
                     sh 'cat ${TAG_FILE}'
