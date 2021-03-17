@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 script {
-                    def response = sh(script: "curl -u admin:admin123 -X GET http://localhost:8081/service/rest/v1/tags/jenkins-bdemo-build-project-8", returnStdout: true).trim()
+                    final String response = sh(script: "curl -u admin:admin123 -X GET http://localhost:8081/service/rest/v1/tags/jenkins-bdemo-build-project-8", returnStdout: true).trim()
                     
                     def slurper = new groovy.json.JsonSlurperClassic()
                     def res = slurper.parseText("${response}")
