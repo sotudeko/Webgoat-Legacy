@@ -47,9 +47,12 @@ pipeline {
             }
             steps {
                 script {
-                    get tagName
-                    check status
-                    if yes
+                    echo 'Now moving components to UAT...'
+
+                    // get tagName
+                    // check status
+                    // if yes
+                    
                     moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
                     endif
                 }
