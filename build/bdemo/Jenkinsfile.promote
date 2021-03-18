@@ -30,7 +30,7 @@ pipeline {
                     def goAhead = "${res.attributes.promoteToTest}"
 
                     if (goAhead == "yes"){
-                         echo 'Moving components to UAT...'
+                         echo "Moving components for ${TAG} to UAT..."
                          moveComponents destination: "${UAT_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
                     }
                     else {
@@ -55,7 +55,7 @@ pipeline {
                     def goAhead = "${res.attributes.promoteToProd}"
 
                     if (goAhead == "yes"){
-                        echo 'Moving components to PROD...'
+                        echo "Moving components for ${TAG} to PROD..."
                         moveComponents destination: "${PROD_REPO}", nexusInstanceId: 'nxrm3', tagName: "${TAG}"
                     }
                     else {
