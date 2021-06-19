@@ -1,6 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <name>WebGoat</name>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <modelVersion>4.0.0</modelVersion>
     <groupId>WebGoat</groupId>
     <artifactId>WebGoat</artifactId>
@@ -9,9 +18,9 @@
 
     <!-- Shared version number properties -->
     <properties>
-        <project.version>1.3.4</project.version>
+        <project.version>1.6.0-SNAPSHOT</project.version>
         <org.springframework.version>5.2.4.RELEASE</org.springframework.version>
-        <spring.security.version>3.2.4.RELEASE</spring.security.version>
+        <spring.security.version>5.1.4.RELEASE</spring.security.version>
         <tiles.version>2.2.2</tiles.version>
         <!-- If run from Bamboo this will be replaced with the bamboo build number -->
         <build.number>local</build.number>
@@ -39,8 +48,7 @@
 	    </snapshotRepository>
 	    <repository>
 	      <id>nexus-releases</id>
-	      <url>http://localhost:8081/repository/maven-central</url>
-	      <!-- <url>http://localhost:8081/nexus/content/repositories/releases</url> -->
+	      <url>http://localhost:8081/nexus/content/repositories/releases</url>
 	    </repository>
     </distributionManagement>
 
@@ -139,7 +147,7 @@
 <dependency>
     <groupId>com.thoughtworks.xstream</groupId>
     <artifactId>xstream</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.17</version>
 </dependency>
 
 <dependency>
@@ -281,7 +289,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
-            <version>7.0.27</version>
+            <version>7.0.108</version>
             <scope>provided</scope>
         </dependency>
 
@@ -306,12 +314,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.0.4</version>
+            <version>2.8.7</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>2.11.2</version>
             <!-- <version>2.0.4</version> -->
         </dependency>
 
@@ -345,14 +353,14 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.2.2</version>
+            <version>1.4</version>
         </dependency>
 
         <!-- Apache Commons Upload -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>1.3.2</version>
+            <version>2.8.0</version>
         </dependency>
 
         <!-- JSTL -->
