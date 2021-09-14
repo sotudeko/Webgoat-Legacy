@@ -18,10 +18,10 @@
 
     <!-- Shared version number properties -->
     <properties>
-        <project.version>1.6.0-SNAPSHOT</project.version>
+        <project.version>1.6.0</project.version>
         <org.springframework.version>5.2.4.RELEASE</org.springframework.version>
         <spring.security.version>5.1.4.RELEASE</spring.security.version>
-        <tiles.version>2.2.2</tiles.version>
+        <tiles.version>3.0.8</tiles.version>
         <!-- If run from Bamboo this will be replaced with the bamboo build number -->
         <build.number>local</build.number>
     </properties>
@@ -48,7 +48,7 @@
 	    </snapshotRepository>
 	    <repository>
 	      <id>nexus-releases</id>
-	      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+	      <url>http://localhost:8081/repository/maven-releases</url>
 	    </repository>
     </distributionManagement>
 
@@ -147,7 +147,7 @@
 <dependency>
     <groupId>com.thoughtworks.xstream</groupId>
     <artifactId>xstream</artifactId>
-    <version>1.4.17</version>
+    <version>1.4.18</version>
 </dependency>
 
 <dependency>
